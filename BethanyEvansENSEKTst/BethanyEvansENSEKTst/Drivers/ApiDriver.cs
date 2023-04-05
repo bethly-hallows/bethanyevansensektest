@@ -20,6 +20,16 @@ namespace BethanyEvansENSEKTest.Drivers
             return _httpClient.GetAsync(url);
         }
 
+        public Task<HttpResponseMessage> PostAsync(string url)
+        {
+            return _httpClient.PostAsync(url, null);
+        }
+
+        public Task<HttpResponseMessage> PutAsync(string url)
+        {
+            return _httpClient.PutAsync(url, null);
+        }
+
         public Task<HttpResponseMessage> PostAsJsonAsync<T>(string url, T value)
         {
             return _httpClient.PostAsJsonAsync(url, value);
@@ -35,21 +45,39 @@ namespace BethanyEvansENSEKTest.Drivers
             return _httpClient.DeleteAsync(url);
         }
 
-        public void PrepareOrderRequest()
+     
+        public async Task<HttpResponseMessage> GetEnergyAsync()
         {
+            const string url = "/ENSEK/energy";
 
+            var httpResponseMessage = await GetAsync(url);
+
+            return httpResponseMessage;
         }
 
-        public void PutOrderRequest(int orderId)
+        public async Task<HttpResponseMessage> GetOrdersAsync()
         {
-            var url = $"/ENSEK/orders/{orderId}";
+            const string url = "/ENSEK/orders";
+
+            var httpResponseMessage = await GetAsync(url);
+
+            return httpResponseMessage;
+        }
+
+        public async Task<HttpResponseMessage> PutBuyRequestAsync(int id, int quantity)
+        {
+            var url = $"/ENSEK/buy/{id}/{quantity}";
+
+            var httpReponseMessage = await PutAsync(url);
+
+            return httpReponseMessage;
         }
 
         public async Task<HttpResponseMessage> PostResetRequestAsync()
         {
             const string url = "/ENSEK/reset";
 
-            var httpReponseMessage = await GetAsync(url);
+            var httpReponseMessage = await PostAsync(url);
 
             return httpReponseMessage;
         }

@@ -1,6 +1,4 @@
-﻿using TechTalk.SpecFlow;
-
-namespace BethanyEvansENSEKTest.Settings
+﻿namespace BethanyEvansENSEKTest.Settings
 {
     public class EnsekApiSettings
     {

@@ -17,6 +17,8 @@ namespace BethanyEvansENSEKTest.Hooks
 
             var settings = new EnsekApiSettings();
             configuration.GetSection("EnsekApiSettings").Bind(settings);
+
+            objectContainer.RegisterInstanceAs(settings);
         }
     }
 }

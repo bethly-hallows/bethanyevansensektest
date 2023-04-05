@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 
 namespace BethanyEvansENSEKTest.Hooks
 {
+    [Binding]
     public class FeatureHooks
     {
+        [BeforeFeature]
+        public static void ConfigureDependencies(FeatureContext featureContext)
+        {
+            var hookConfig = new HookConfiguration();
+
+            hookConfig.Configure(featureContext.FeatureContainer);
+        }
+   
     }
 }
