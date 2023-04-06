@@ -2,7 +2,7 @@
 
 namespace BethanyEvansENSEKTest.Models
 {
-    public class LoginResource
+    public class Login
     {
         [JsonProperty("username")]
         public string Username { get; set; }

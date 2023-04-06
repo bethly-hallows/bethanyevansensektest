@@ -77,16 +77,28 @@ namespace BethanyEvansENSEKTest.Features
         {
 #line 4
 #line hidden
+#line 5
+ testRunner.Given("I call the Login endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 6
+ testRunner.And("I call the Reset endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Reset the data")]
-        public void ResetTheData()
+        [NUnit.Framework.DescriptionAttribute("Reset the test data")]
+        [NUnit.Framework.TestCaseAttribute("1", "1", null)]
+        [NUnit.Framework.TestCaseAttribute("2", "2", null)]
+        [NUnit.Framework.TestCaseAttribute("3", "3", null)]
+        [NUnit.Framework.TestCaseAttribute("4", "4", null)]
+        public void ResetTheTestData(string energyId, string quantity, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Reset the data", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 7
+            argumentsOfScenario.Add("energyId", energyId);
+            argumentsOfScenario.Add("quantity", quantity);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Reset the test data", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -99,33 +111,37 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 8
- testRunner.When("I call the Energy endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 9
- testRunner.And("I call the Orders endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
 #line 10
- testRunner.Then("no data is retrieved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given(string.Format("I call the Buy endpoint for energy type {0} and quantity {1}", energyId, quantity), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 11
+ testRunner.And("I call the Reset endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 12
+ testRunner.When("I call the Orders endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 13
+ testRunner.Then("no Order data is retrieved for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Order a quantity of fuel")]
-        [NUnit.Framework.TestCaseAttribute("1", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("2", "2", null)]
-        [NUnit.Framework.TestCaseAttribute("3", "3", null)]
-        [NUnit.Framework.TestCaseAttribute("4", "3", null)]
-        public void OrderAQuantityOfFuel(string energyType, string quantity, string[] exampleTags)
+        [NUnit.Framework.DescriptionAttribute("Buy a quantity of fuel")]
+        [NUnit.Framework.TestCaseAttribute("1", "Gas", "1", null)]
+        [NUnit.Framework.TestCaseAttribute("2", "Nuclear", "2", null)]
+        [NUnit.Framework.TestCaseAttribute("3", "Electric", "3", null)]
+        [NUnit.Framework.TestCaseAttribute("4", "Oil", "4", null)]
+        public void BuyAQuantityOfFuel(string energyId, string energyType, string quantity, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("energyId", energyId);
             argumentsOfScenario.Add("energyType", energyType);
             argumentsOfScenario.Add("quantity", quantity);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Order a quantity of fuel", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 12
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Buy a quantity of fuel", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 24
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -138,14 +154,122 @@ this.ScenarioInitialize(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line hidden
-#line 13
- testRunner.Given(string.Format("I call the Buy endpoint for each {0} and {1}", energyType, quantity), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 25
+ testRunner.Given(string.Format("I call the Buy endpoint for energy type {0} and quantity {1}", energyId, quantity), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 14
+#line 26
  testRunner.When("I call the Orders endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 15
- testRunner.Then(string.Format("there is an order for each type of energy with quantity {0}", quantity), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 27
+ testRunner.Then(string.Format("there is an order for each type of energy with quantity {0} and energy type {1}", quantity, energyType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Assert orders placed before today")]
+        public void AssertOrdersPlacedBeforeToday()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Assert orders placed before today", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 36
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+#line 37
+ testRunner.Given("I call the Orders endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 38
+ testRunner.Then("there are 5 orders placed before today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Deleting an order removes it from Orders")]
+        public void DeletingAnOrderRemovesItFromOrders()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deleting an order removes it from Orders", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 41
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+#line 42
+ testRunner.Given("I call the Buy endpoint for energy type 4 and quantity 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 43
+ testRunner.And("I call the Orders endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 44
+ testRunner.And("there is an order for each type of energy with quantity 3 and energy type Oil", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 45
+ testRunner.When("I call the Delete Orders endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 46
+ testRunner.Then("the order is deleted from the Orders", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get an order by Order Id returns the correct order")]
+        public void GetAnOrderByOrderIdReturnsTheCorrectOrder()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get an order by Order Id returns the correct order", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 49
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+this.FeatureBackground();
+#line hidden
+#line 50
+ testRunner.Given("I call the Buy endpoint for energy type 4 and quantity 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 51
+ testRunner.And("I call the Orders endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 52
+ testRunner.And("there is an order for each type of energy with quantity 3 and energy type Oil", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 53
+ testRunner.When("I call the Get Order endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 54
+ testRunner.Then("the correct order is returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -1,4 +1,5 @@
-﻿using BethanyEvansENSEKTest.Settings;
+﻿using BethanyEvansENSEKTest.Models;
+using BethanyEvansENSEKTest.Settings;
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -13,6 +14,11 @@ namespace BethanyEvansENSEKTest.Drivers
         public ApiDriver(EnsekApiSettings ensekApiSettings)
         {
             _httpClient = new HttpClient { BaseAddress = new Uri(ensekApiSettings.ApiEndpoint) };
+        }
+
+        public void AddAuthToken(string bearerToken)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", bearerToken);
         }
 
         public Task<HttpResponseMessage> GetAsync(string url)
@@ -35,24 +41,9 @@ namespace BethanyEvansENSEKTest.Drivers
             return _httpClient.PostAsJsonAsync(url, value);
         }
 
-        public Task<HttpResponseMessage> PutAsJsonAsync<T>(string url, T value)
-        {
-            return _httpClient.PutAsJsonAsync(url, value);
-        }
-
         public Task<HttpResponseMessage> DeleteAsync(string url)
         {
             return _httpClient.DeleteAsync(url);
-        }
-
-     
-        public async Task<HttpResponseMessage> GetEnergyAsync()
-        {
-            const string url = "/ENSEK/energy";
-
-            var httpResponseMessage = await GetAsync(url);
-
-            return httpResponseMessage;
         }
 
         public async Task<HttpResponseMessage> GetOrdersAsync()
@@ -60,6 +51,24 @@ namespace BethanyEvansENSEKTest.Drivers
             const string url = "/ENSEK/orders";
 
             var httpResponseMessage = await GetAsync(url);
+
+            return httpResponseMessage;
+        }
+
+        public async Task<HttpResponseMessage> GetOrderAsync(string orderId)
+        {
+            var url = $"/ENSEK/orders/{orderId}";
+
+            var httpResponseMessage = await GetAsync(url);
+
+            return httpResponseMessage;
+        }
+
+        public async Task<HttpResponseMessage> DeleteOrderAsync(string orderId)
+        {
+            var url = $"/ENSEK/orders/{orderId}";
+
+            var httpResponseMessage = await DeleteAsync(url);
 
             return httpResponseMessage;
         }
@@ -78,6 +87,15 @@ namespace BethanyEvansENSEKTest.Drivers
             const string url = "/ENSEK/reset";
 
             var httpReponseMessage = await PostAsync(url);
+
+            return httpReponseMessage;
+        }
+
+        public async Task<HttpResponseMessage> PostLoginRequestAsync(Login loginRequest)
+        {
+            const string url = "/ENSEK/login";
+
+            var httpReponseMessage = await PostAsJsonAsync(url, loginRequest);
 
             return httpReponseMessage;
         }
